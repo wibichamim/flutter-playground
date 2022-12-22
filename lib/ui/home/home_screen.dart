@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_playground/utils.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -115,6 +118,62 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Widget _headerTablet() {
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 150,
+            child: Row(
+              children: [
+                Expanded(child: _cardVisit()),
+                Expanded(child: _cardVisit()),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 150,
+            child: _cardTarget(),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _headerMobile() {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        width: double.infinity,
+        height: 150,
+        child: Stack(
+          children: [
+            PageView(
+              controller: pageController,
+              children: [
+                _cardVisit(),
+                _cardVisit(),
+                _cardTarget(),
+              ],
+            ),
+            Positioned(
+              top: 20,
+              right: 20,
+              child: SmoothPageIndicator(
+                controller: pageController,
+                count: 3,
+                effect: const ExpandingDotsEffect(
+                    activeDotColor: Colors.amber,
+                    dotHeight: 5,
+                    dotWidth: 5,
+                    spacing: 8),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -123,40 +182,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Scaffold(
           body: Padding(
             padding: const EdgeInsets.all(24),
-            child: Center(
-              child: Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 150,
-                    child: Stack(
-                      children: [
-                        PageView(
-                          controller: pageController,
-                          children: [
-                            _cardVisit(),
-                            _cardVisit(),
-                            _cardTarget(),
-                          ],
-                        ),
-                        Positioned(
-                          top: 20,
-                          right: 20,
-                          child: SmoothPageIndicator(
-                            controller: pageController,
-                            count: 3,
-                            effect: const ExpandingDotsEffect(
-                                activeDotColor: Colors.amber,
-                                dotHeight: 5,
-                                dotWidth: 5,
-                                spacing: 8),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            child: CustomScrollView(
+              slivers: [
+                context.isTablet() ? _headerTablet() : _headerMobile(),
+              ],
             ),
           ),
         ),
