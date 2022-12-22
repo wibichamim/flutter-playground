@@ -1,14 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter_playground/ui/home/widget/stat_card.dart';
+import 'package:flutter_playground/ui/home/widget/target_card.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_playground/utils.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -19,105 +16,6 @@ class _MyHomePageState extends State<MyHomePage> {
     initialPage: 1,
   );
 
-  Widget _statContent(int position, IconData icon, String title, String count) {
-    return Row(
-      children: [
-        if (position != 1)
-          const VerticalDivider(
-            color: Colors.green,
-            thickness: 2,
-            width: 30,
-            indent: 20,
-            endIndent: 20,
-          ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Icon(icon),
-            Text(title),
-            Text(count),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _cardVisit() {
-    return Card(
-      color: Colors.green.shade800,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Visit Data'),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _statContent(1, Icons.ac_unit_rounded, 'Visited', '7'),
-                  _statContent(
-                      2, Icons.access_time_filled_rounded, 'Visit Close', '7'),
-                  _statContent(3, Icons.supervised_user_circle_rounded,
-                      'Bussiness Partner', '20'),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _statTarget(int count, String title) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        CircularPercentIndicator(
-          radius: 25,
-          percent: count / 100,
-          center: Text(
-            '$count%',
-            style: TextStyle(fontSize: 10),
-          ),
-          lineWidth: 5.0,
-          progressColor: Colors.amber,
-          backgroundColor: Colors.white,
-        ),
-        Text(title),
-      ],
-    );
-  }
-
-  Widget _cardTarget() {
-    return Card(
-      color: Colors.green.shade800,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Target'),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _statTarget(60, 'Customer'),
-                  _statTarget(45, 'Grup'),
-                  _statTarget(90, 'Brand'),
-                  _statTarget(50, 'Visit'),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _headerTablet() {
     return SliverToBoxAdapter(
       child: Column(
@@ -125,15 +23,15 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height: 150,
             child: Row(
-              children: [
-                Expanded(child: _cardVisit()),
-                Expanded(child: _cardVisit()),
+              children: const [
+                Expanded(child: StatCardWidget()),
+                Expanded(child: StatCardWidget()),
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 150,
-            child: _cardTarget(),
+            child: TargetCardWidget(),
           )
         ],
       ),
@@ -149,10 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             PageView(
               controller: pageController,
-              children: [
-                _cardVisit(),
-                _cardVisit(),
-                _cardTarget(),
+              children: const [
+                StatCardWidget(),
+                StatCardWidget(),
+                TargetCardWidget(),
               ],
             ),
             Positioned(
