@@ -72,17 +72,45 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Widget _body() {
+    return SliverFillRemaining(
+      child: Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+          color: Colors.white,
+        ),
+        padding: const EdgeInsets.all(12),
+        child: GridView.count(
+          crossAxisCount: 4,
+          children: List.generate(14, (index) {
+            return const Card(
+              color: Colors.deepPurpleAccent,
+            );
+          }),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.green,
       child: SafeArea(
         child: Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(24),
+          body: Container(
+            color: Colors.greenAccent,
             child: CustomScrollView(
               slivers: [
-                context.isTablet() ? _headerTablet() : _headerMobile(),
+                SliverPadding(
+                  padding: EdgeInsets.all(24),
+                  sliver:
+                      context.isTablet() ? _headerTablet() : _headerMobile(),
+                ),
+                _body()
               ],
             ),
           ),
