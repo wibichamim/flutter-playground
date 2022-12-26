@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_playground/core/data/model/menu.dart';
+import 'package:go_router/go_router.dart';
 
 class MenuWidget extends StatelessWidget {
   final HomePageMenu menuItem;
@@ -27,12 +28,8 @@ class MenuWidget extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: GestureDetector(
-        onTap: () => showModalBottomSheet(
+  /* modal bottom sheet
+   showModalBottomSheet(
           isScrollControlled: true,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -45,6 +42,14 @@ class MenuWidget extends StatelessWidget {
             return _bottomSheet();
           },
         ),
+  */
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: GestureDetector(
+        onTap: () => context.pushNamed(menuItem.page),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

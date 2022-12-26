@@ -22,17 +22,17 @@ class _MyHomePageState extends State<MyHomePage> {
     HomePageMenu(
       icon: Icons.calendar_today_rounded,
       label: 'Visit Plan',
-      page: Container(),
+      page: 'VisitPlan',
     ),
     HomePageMenu(
       icon: Icons.abc,
       label: 'Visit Data',
-      page: Container(),
+      page: 'VisitPlan',
     ),
     HomePageMenu(
       icon: Icons.dangerous_rounded,
       label: 'Action Plan',
-      page: Container(),
+      page: 'VisitPlan',
     ),
   ];
 
