@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_playground/core/data/model/menu.dart';
+import 'package:flutter_playground/ui/home/widget/menu_item.dart';
 import 'package:flutter_playground/ui/home/widget/stat_card.dart';
 import 'package:flutter_playground/ui/home/widget/target_card.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -15,6 +17,24 @@ class _MyHomePageState extends State<MyHomePage> {
   final pageController = PageController(
     initialPage: 1,
   );
+
+  final List<HomePageMenu> menuList = [
+    HomePageMenu(
+      icon: Icons.calendar_today_rounded,
+      label: 'Visit Plan',
+      page: Container(),
+    ),
+    HomePageMenu(
+      icon: Icons.abc,
+      label: 'Visit Data',
+      page: Container(),
+    ),
+    HomePageMenu(
+      icon: Icons.dangerous_rounded,
+      label: 'Action Plan',
+      page: Container(),
+    ),
+  ];
 
   Widget _headerTablet() {
     return SliverToBoxAdapter(
@@ -42,10 +62,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return SliverToBoxAdapter(
       child: SizedBox(
         width: double.infinity,
-        height: 150,
+        height: 130,
         child: Stack(
           children: [
             PageView(
+              physics: const BouncingScrollPhysics(),
               controller: pageController,
               children: const [
                 StatCardWidget(),
@@ -74,24 +95,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _body() {
     return SliverFillRemaining(
+      fillOverscroll: false,
       child: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            color: Colors.white,
           ),
-          color: Colors.white,
-        ),
-        padding: const EdgeInsets.all(12),
-        child: GridView.count(
-          crossAxisCount: 4,
-          children: List.generate(14, (index) {
-            return const Card(
-              color: Colors.deepPurpleAccent,
-            );
-          }),
-        ),
-      ),
+          padding: const EdgeInsets.all(12),
+          child: GridView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemCount: menuList.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4),
+            itemBuilder: (context, index) =>
+                MenuWidget(menuItem: menuList[index]),
+          )),
     );
   }
 
@@ -106,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: CustomScrollView(
               slivers: [
                 SliverPadding(
-                  padding: EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(24),
                   sliver:
                       context.isTablet() ? _headerTablet() : _headerMobile(),
                 ),
