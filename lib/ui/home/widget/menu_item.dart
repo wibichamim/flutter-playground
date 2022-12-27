@@ -46,29 +46,25 @@ class MenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: GestureDetector(
-        onTap: () => context.pushNamed(menuItem.page),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  side: const BorderSide(width: 0.5, color: Colors.grey)),
-              child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Icon(menuItem.icon)),
-            ),
-            Text(
-              menuItem.label,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.black),
-            ),
-          ],
-        ),
+    return GestureDetector(
+      onTap: () => context.pushNamed(menuItem.page),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Card(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: const BorderSide(width: 0.5, color: Colors.grey)),
+            child: Padding(
+                padding: const EdgeInsets.all(16), child: Icon(menuItem.icon)),
+          ),
+          Text(
+            menuItem.label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.black),
+          ),
+        ],
       ),
     );
   }
