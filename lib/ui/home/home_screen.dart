@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_playground/core/data/model/menu.dart';
 import 'package:flutter_playground/ui/home/widget/menu_item.dart';
 import 'package:flutter_playground/ui/home/widget/stat_card.dart';
 import 'package:flutter_playground/ui/home/widget/target_card.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_playground/utils.dart';
 
@@ -18,6 +21,10 @@ class _MyHomePageState extends State<MyHomePage> {
     initialPage: 1,
   );
 
+  String get formattedCurentDate {
+    return DateFormat('d MMM y').format(DateTime.now());
+  }
+
   final List<HomePageMenu> menuList = [
     HomePageMenu(
       icon: Icons.calendar_today_rounded,
@@ -31,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
     HomePageMenu(
       icon: Icons.dangerous_rounded,
-      label: 'Action Plan',
+      label: 'Check Inventory',
       page: 'VisitPlan',
     ),
   ];
@@ -104,14 +111,31 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             color: Colors.white,
           ),
-          padding: const EdgeInsets.all(12),
-          child: GridView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemCount: menuList.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4),
-            itemBuilder: (context, index) =>
-                MenuWidget(menuItem: menuList[index]),
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Today, $formattedCurentDate',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+              Expanded(
+                child: GridView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: menuList.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    childAspectRatio: 3 / 4,
+                    crossAxisSpacing: 10,
+                  ),
+                  itemBuilder: (context, index) =>
+                      MenuWidget(menuItem: menuList[index]),
+                ),
+              ),
+            ],
           )),
     );
   }
@@ -123,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: SafeArea(
         child: Scaffold(
           body: Container(
-            color: Colors.greenAccent,
+            color: Colors.green[600],
             child: CustomScrollView(
               slivers: [
                 SliverPadding(
