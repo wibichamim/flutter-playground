@@ -6,29 +6,33 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../../core/widgets/app_theme.dart';
 
 class TargetCardWidget extends StatelessWidget {
-  const TargetCardWidget({super.key});
+  final Map<int, String> items;
+  const TargetCardWidget({super.key, required this.items});
 
   Widget _statTarget(int count, String title) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        CircularPercentIndicator(
-          radius: 25,
-          percent: count / 100,
-          center: Text(
-            '$count%',
-            style: AppTheme().textTheme.bodyText2?.copyWith(fontSize: 10),
+    return Builder(builder: (context) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          CircularPercentIndicator(
+            radius: 20,
+            percent: count / 100,
+            center: Text(
+              '$count%',
+              style: AppTheme().textTheme.bodyText2?.copyWith(fontSize: 10),
+            ),
+            lineWidth: 3.0,
+            progressColor: Colors.amber,
+            backgroundColor: Colors.white,
           ),
-          lineWidth: 5.0,
-          progressColor: Colors.amber,
-          backgroundColor: Colors.white,
-        ),
-        Text(
-          title,
-          style: AppTheme().textTheme.bodyText2?.copyWith(fontSize: 12),
-        ),
-      ],
-    );
+          Text(
+            title,
+            style:
+                Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 11),
+          ),
+        ],
+      );
+    });
   }
 
   @override
@@ -45,15 +49,16 @@ class TargetCardWidget extends StatelessWidget {
               'Target',
               style: AppTheme().textTheme.bodyText2?.copyWith(fontSize: 12),
             ),
+            const SizedBox(
+              height: 10.0,
+            ),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _statTarget(60, 'Customer'),
-                  _statTarget(45, 'Grup'),
-                  _statTarget(90, 'Brand'),
-                  _statTarget(50, 'Visit'),
-                ],
+                children: List.generate(
+                    items.length,
+                    (index) => _statTarget(items.keys.elementAt(index),
+                        items.values.elementAt(index))),
               ),
             ),
           ],

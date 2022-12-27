@@ -47,7 +47,7 @@ class MenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () => context.pushNamed(menuItem.page),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

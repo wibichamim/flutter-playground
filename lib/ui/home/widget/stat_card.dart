@@ -1,39 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_playground/core/data/model/home_card_item.dart';
+import 'package:flutter_playground/gen/assets.gen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/widgets/app_theme.dart';
 
 class StatCardWidget extends StatelessWidget {
-  const StatCardWidget({super.key});
+  final String cardTitle;
+  final List<HomeCardItem> listItem;
+  const StatCardWidget(
+      {super.key, required this.cardTitle, required this.listItem});
 
-  Widget _statContent(int position, IconData icon, String title, String count) {
-    return Row(
-      children: [
-        if (position != 1)
-          const VerticalDivider(
-            color: Colors.green,
-            thickness: 2,
-            width: 30,
-            indent: 20,
-            endIndent: 20,
+  Widget _statContent(int position, Image icon, String title, String count) {
+    return Builder(builder: (context) {
+      return Row(
+        children: [
+          if (position != 0)
+            const VerticalDivider(
+              color: Colors.green,
+              thickness: 2,
+              width: 30,
+              endIndent: 15,
+            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Image(image: icon.image),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      fontSize: 11,
+                    ),
+              ),
+              Text(
+                count,
+                style: Theme.of(context).textTheme.headline6?.copyWith(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+              ),
+            ],
           ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Icon(icon),
-            Text(
-              title,
-              style: AppTheme().textTheme.bodyText2?.copyWith(fontSize: 12),
-            ),
-            Text(
-              count,
-              style: AppTheme().textTheme.bodyText2?.copyWith(fontSize: 12),
-            ),
-          ],
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   @override
@@ -47,19 +58,19 @@ class StatCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Visit Data',
+              cardTitle,
               style: AppTheme().textTheme.bodyText2?.copyWith(fontSize: 12),
+            ),
+            const SizedBox(
+              height: 10.0,
             ),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _statContent(1, Icons.ac_unit_rounded, 'Visited', '7'),
-                  _statContent(
-                      2, Icons.access_time_filled_rounded, 'Visit Close', '7'),
-                  _statContent(3, Icons.supervised_user_circle_rounded,
-                      'Bussiness Partner', '20'),
-                ],
+                children: List.generate(listItem.length, (index) {
+                  HomeCardItem item = listItem[index];
+                  return _statContent(index, item.icon, item.label, item.count);
+                }),
               ),
             ),
           ],

@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_playground/core/data/model/home_card_item.dart';
 import 'package:flutter_playground/core/data/model/menu.dart';
 import 'package:flutter_playground/core/widgets/app_colors.dart';
 import 'package:flutter_playground/gen/assets.gen.dart';
+import 'package:flutter_playground/ui/home/widget/list_menu.dart';
 import 'package:flutter_playground/ui/home/widget/menu_item.dart';
 import 'package:flutter_playground/ui/home/widget/stat_card.dart';
 import 'package:flutter_playground/ui/home/widget/target_card.dart';
@@ -23,82 +25,46 @@ class _MyHomePageState extends State<MyHomePage> {
     initialPage: 1,
   );
 
+  final List<HomePageMenu> menuList = listMenu;
+  final List<HomeCardItem> itemPage1 = [
+    HomeCardItem(
+      icon: Assets.images.illVisitPlanHome.image(),
+      label: 'Visit Plan',
+      count: '29',
+    ),
+    HomeCardItem(
+      icon: Assets.images.illVisitedHome.image(),
+      label: 'Visited',
+      count: '10',
+    ),
+    HomeCardItem(
+      icon: Assets.images.illProfileBp.image(),
+      label: 'Bussiness Partner',
+      count: '20',
+    ),
+  ];
+
+  final List<HomeCardItem> itemPage2 = [
+    HomeCardItem(
+      icon: Assets.images.illVisitedHome.image(),
+      label: 'Visited',
+      count: '10',
+    ),
+    HomeCardItem(
+      icon: Assets.images.illVisitCloseHome.image(),
+      label: 'Visit Close',
+      count: '5',
+    ),
+    HomeCardItem(
+      icon: Assets.images.illProfileBp.image(),
+      label: 'Bussiness Partner',
+      count: '20',
+    ),
+  ];
+
   String get formattedCurentDate {
     return DateFormat('d MMM y').format(DateTime.now());
   }
-
-  final List<HomePageMenu> menuList = [
-    HomePageMenu(
-      icon: Assets.images.illMenuVisitPlan.image(),
-      label: 'Visit Plan',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illVisitData.image(),
-      label: 'Visit Data',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuActionPlan.image(),
-      label: 'Action Plan',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuPopulasi.image(),
-      label: 'Populasi',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuBp.image(),
-      label: 'Bussiness Partner',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuContact.image(),
-      label: 'Contact',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuQuotation.image(),
-      label: 'Quotation',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuCatalogVideo.image(),
-      label: 'Catalog Video',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuSalesHistory.image(),
-      label: 'Sales History',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuCheckIventory.image(),
-      label: 'Check Inventory',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuRto.image(),
-      label: 'RTO',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuExpenses.image(),
-      label: 'Expenses',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuReport.image(),
-      label: 'Report',
-      page: 'VisitPlan',
-    ),
-    HomePageMenu(
-      icon: Assets.images.illMenuTarget.image(),
-      label: 'Target',
-      page: 'VisitPlan',
-    ),
-  ];
 
   Widget _headerTablet() {
     return SliverToBoxAdapter(
@@ -107,15 +73,24 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height: 150,
             child: Row(
-              children: const [
-                Expanded(child: StatCardWidget()),
-                Expanded(child: StatCardWidget()),
+              children: [
+                Expanded(
+                    child: StatCardWidget(
+                        cardTitle: 'Visit Plan', listItem: itemPage1)),
+                Expanded(
+                    child: StatCardWidget(
+                        cardTitle: 'Visit Data', listItem: itemPage2)),
               ],
             ),
           ),
           const SizedBox(
             height: 150,
-            child: TargetCardWidget(),
+            child: TargetCardWidget(items: {
+              60: 'Customer',
+              40: 'Grup',
+              90: 'Brand',
+              50: 'Visit',
+            }),
           )
         ],
       ),
@@ -132,10 +107,15 @@ class _MyHomePageState extends State<MyHomePage> {
             PageView(
               physics: const BouncingScrollPhysics(),
               controller: pageController,
-              children: const [
-                StatCardWidget(),
-                StatCardWidget(),
-                TargetCardWidget(),
+              children: [
+                StatCardWidget(cardTitle: 'Visit Plan', listItem: itemPage1),
+                StatCardWidget(cardTitle: 'Visit Data', listItem: itemPage2),
+                const TargetCardWidget(items: {
+                  60: 'Customer',
+                  40: 'Grup',
+                  90: 'Brand',
+                  50: 'Visit',
+                }),
               ],
             ),
             Positioned(
@@ -202,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.green,
+        color: AppColors.primary,
         image: DecorationImage(
             image: Assets.images.bg2.image().image,
             alignment: Alignment.topCenter,
