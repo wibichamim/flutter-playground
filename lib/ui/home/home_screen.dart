@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_playground/core/data/model/menu.dart';
+import 'package:flutter_playground/core/widgets/app_colors.dart';
+import 'package:flutter_playground/gen/assets.gen.dart';
 import 'package:flutter_playground/ui/home/widget/menu_item.dart';
 import 'package:flutter_playground/ui/home/widget/stat_card.dart';
 import 'package:flutter_playground/ui/home/widget/target_card.dart';
@@ -143,21 +145,24 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.green,
+      decoration: BoxDecoration(
+        color: Colors.green,
+        image: DecorationImage(
+            image: Assets.images.bg2.image().image,
+            alignment: Alignment.topCenter,
+            fit: BoxFit.fitWidth),
+      ),
       child: SafeArea(
         child: Scaffold(
-          body: Container(
-            color: Colors.green[600],
-            child: CustomScrollView(
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.all(24),
-                  sliver:
-                      context.isTablet() ? _headerTablet() : _headerMobile(),
-                ),
-                _body()
-              ],
-            ),
+          backgroundColor: Colors.transparent,
+          body: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.all(24),
+                sliver: context.isTablet() ? _headerTablet() : _headerMobile(),
+              ),
+              _body()
+            ],
           ),
         ),
       ),
