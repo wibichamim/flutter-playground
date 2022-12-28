@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_playground/core/data/model/home_card_item.dart';
 import 'package:flutter_playground/core/data/model/menu.dart';
@@ -22,7 +23,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final pageController = PageController(
-    initialPage: 1,
+    initialPage: 0,
   );
 
   final List<HomePageMenu> menuList = listMenu;
@@ -62,8 +63,79 @@ class _MyHomePageState extends State<MyHomePage> {
     ),
   ];
 
+  final List<Map<String, dynamic>> itemTarget = [
+    {'count': 60, 'label': 'Customer'},
+    {'count': 40, 'label': 'Grup'},
+    {'count': 90, 'label': 'Brand'},
+    {'count': 75, 'label': 'Visit'},
+  ];
+
   String get formattedCurentDate {
     return DateFormat('d MMM y').format(DateTime.now());
+  }
+
+  Widget _appBar() {
+    return SliverAppBar(
+      backgroundColor: Colors.transparent,
+      flexibleSpace: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              backgroundImage: Assets.images.imgAvatarProfile.image().image,
+            ),
+            const SizedBox(
+              width: 12.0,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Welcome Back,",
+                  style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                        fontSize: 11,
+                      ),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "Administrator",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          ?.copyWith(color: Colors.white),
+                    ),
+                    const SizedBox(
+                      width: 10.0,
+                    ),
+                    Assets.images.icArrowFillRightGrey.image(),
+                  ],
+                ),
+              ],
+            ),
+            const Spacer(),
+            Badge(
+              shape: BadgeShape.square,
+              borderRadius: BorderRadius.circular(7),
+              badgeColor: Colors.amber,
+              position: BadgePosition.bottomStart(bottom: -1, start: -8),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
+              badgeContent: Text(
+                '3',
+                style: Theme.of(context).textTheme.headline6?.copyWith(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                    ),
+              ),
+              child: Assets.images.icNotification.image(),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _headerTablet() {
@@ -83,14 +155,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          const SizedBox(
+          SizedBox(
             height: 150,
-            child: TargetCardWidget(items: {
-              60: 'Customer',
-              40: 'Grup',
-              90: 'Brand',
-              50: 'Visit',
-            }),
+            child: TargetCardWidget(
+              items: itemTarget,
+            ),
           )
         ],
       ),
@@ -110,12 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 StatCardWidget(cardTitle: 'Visit Plan', listItem: itemPage1),
                 StatCardWidget(cardTitle: 'Visit Data', listItem: itemPage2),
-                const TargetCardWidget(items: {
-                  60: 'Customer',
-                  40: 'Grup',
-                  90: 'Brand',
-                  50: 'Visit',
-                }),
+                TargetCardWidget(items: itemTarget),
               ],
             ),
             Positioned(
@@ -148,13 +212,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             color: Colors.white,
           ),
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Today, $formattedCurentDate',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.headline6?.copyWith(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
               ),
               const SizedBox(
                 height: 20.0,
@@ -193,8 +260,9 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Colors.transparent,
           body: CustomScrollView(
             slivers: [
+              _appBar(),
               SliverPadding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(12),
                 sliver: context.isTablet() ? _headerTablet() : _headerMobile(),
               ),
               _body()

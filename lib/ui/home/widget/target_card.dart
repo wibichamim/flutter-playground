@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../../core/widgets/app_theme.dart';
 
 class TargetCardWidget extends StatelessWidget {
-  final Map<int, String> items;
+  final List<Map<String, dynamic>> items;
   const TargetCardWidget({super.key, required this.items});
 
   Widget _statTarget(int count, String title) {
@@ -56,9 +54,12 @@ class TargetCardWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: List.generate(
-                    items.length,
-                    (index) => _statTarget(items.keys.elementAt(index),
-                        items.values.elementAt(index))),
+                  items.length,
+                  (index) => _statTarget(
+                    items[index]['count'],
+                    items[index]['label'],
+                  ),
+                ),
               ),
             ),
           ],
