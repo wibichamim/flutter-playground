@@ -43,6 +43,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   intl: ^0.17.0
   badges: ^2.0.3
+  flutter_calendar_carousel: ^2.4.1
   
 dev_dependencies:
   flutter_test:

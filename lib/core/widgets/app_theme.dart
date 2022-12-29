@@ -94,6 +94,11 @@ class AppTheme {
     focusColor: AppColors.primarySwatch,
   );
 
+  final topBorderRadius = const BorderRadius.only(
+    topLeft: Radius.circular(16.0),
+    topRight: Radius.circular(16.0),
+  );
+
   static final marginHorizontal = 24.w;
   static final marginVertical = 24.h;
 }
