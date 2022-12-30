@@ -17,6 +17,7 @@ class VisitPlanScreen extends StatefulWidget {
 
 class _VisitPlanScreenState extends State<VisitPlanScreen>
     with SingleTickerProviderStateMixin {
+  final Duration duration = const Duration(milliseconds: 500);
   DateTime _currentDate = DateTime.now();
 
   String get formattedCurentDate {
@@ -33,7 +34,7 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: duration,
       upperBound: 0.5,
     );
   }
@@ -167,7 +168,7 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
   Widget _calendarContainer() {
     return AnimatedContainer(
       width: double.infinity,
-      height: _expanded ? 380 : 0,
+      height: _expanded ? 350 : 0,
       decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -179,13 +180,67 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
         ],
       ),
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      duration: const Duration(milliseconds: 500),
+      duration: duration,
       child: SingleChildScrollView(
         child: CalendarWidget(
           selectedDate: (date) {
             _currentDate = date;
           },
         ),
+      ),
+    );
+  }
+
+  Widget _listCard() {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: 10,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: Colors.grey[200],
+                backgroundImage: const NetworkImage(
+                  "https://i.ibb.co/xgwkhVb/740922.png",
+                ),
+              ),
+              title: const Text("Apple"),
+              subtitle: const Text("15 USD"),
+              trailing: SizedBox(
+                width: 120.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Card(
+                      color: Colors.grey[800],
+                      child: const Icon(
+                        Icons.remove,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(4.0),
+                      child: Text(
+                        "1",
+                        style: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    Card(
+                      color: Colors.grey[800],
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -204,6 +259,7 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
             children: [
               _headerBody(),
               _calendarContainer(),
+              _listCard(),
             ],
           ),
         ),

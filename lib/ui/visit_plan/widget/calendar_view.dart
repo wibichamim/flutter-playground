@@ -28,7 +28,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         );
 
     return CalendarCarousel(
-      height: 380,
+      height: 350,
+      headerMargin: EdgeInsets.only(bottom: 8),
       leftButtonIcon: Assets.images.icArrowLeft.image(),
       rightButtonIcon:
           RotatedBox(quarterTurns: 2, child: Assets.images.icArrowLeft.image()),
