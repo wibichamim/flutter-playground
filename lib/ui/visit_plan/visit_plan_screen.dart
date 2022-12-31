@@ -6,6 +6,7 @@ import 'package:flutter_playground/core/widgets/app_theme.dart';
 import 'package:flutter_playground/gen/assets.gen.dart';
 import 'package:flutter_playground/ui/visit_plan/widget/calendar_view.dart';
 import 'package:flutter_playground/ui/visit_plan/widget/green_appbar.dart';
+import 'package:flutter_playground/ui/visit_plan/widget/visit_card.dart';
 import 'package:intl/intl.dart';
 
 class VisitPlanScreen extends StatefulWidget {
@@ -196,50 +197,9 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
       child: ListView.builder(
         itemCount: 10,
         shrinkWrap: true,
+        padding: const EdgeInsets.all(12.0),
         itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.grey[200],
-                backgroundImage: const NetworkImage(
-                  "https://i.ibb.co/xgwkhVb/740922.png",
-                ),
-              ),
-              title: const Text("Apple"),
-              subtitle: const Text("15 USD"),
-              trailing: SizedBox(
-                width: 120.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Card(
-                      color: Colors.grey[800],
-                      child: const Icon(
-                        Icons.remove,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: Text(
-                        "1",
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                    Card(
-                      color: Colors.grey[800],
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
+          return VisitCard();
         },
       ),
     );
