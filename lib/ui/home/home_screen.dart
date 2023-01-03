@@ -10,6 +10,7 @@ import 'package:flutter_playground/ui/home/widget/list_menu.dart';
 import 'package:flutter_playground/ui/home/widget/menu_item.dart';
 import 'package:flutter_playground/ui/home/widget/stat_card.dart';
 import 'package:flutter_playground/ui/home/widget/target_card.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_playground/utils.dart';
@@ -102,10 +103,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Text(
                       "Administrator",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.headline6?.copyWith(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
                     ),
                     const SizedBox(
                       width: 10.0,
