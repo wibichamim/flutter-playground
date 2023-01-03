@@ -90,7 +90,12 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
           color: Colors.white,
           borderRadius: AppTheme().topBorderRadius,
         ),
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.only(
+          top: 24.0,
+          bottom: 8.0,
+          left: 24.0,
+          right: 24.0,
+        ),
         child: Material(
           color: Colors.transparent,
           child: Row(
