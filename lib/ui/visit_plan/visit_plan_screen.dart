@@ -22,9 +22,9 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
   DateTime _currentDate = DateTime.now();
 
   String get formattedCurentDate {
-    return _currentDate == DateTime.now()
-        ? 'Today ,${DateFormat('d MMM y').format(_currentDate)}'
-        : DateFormat('d MMM y').format(_currentDate);
+    return DateUtils.isSameDay(_currentDate, DateTime.now())
+        ? 'Today, ${DateFormat('d MMM y').format(_currentDate)}'
+        : DateFormat('E, d MMM y').format(_currentDate);
   }
 
   late final AnimationController _controller;
@@ -59,7 +59,7 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
 
   Widget _fab() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           minimumSize: const Size.fromHeight(50),
@@ -96,7 +96,7 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
           child: Row(
             children: [
               Text(
-                'Today, $formattedCurentDate',
+                formattedCurentDate,
                 style: Theme.of(context).textTheme.headline6?.copyWith(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
@@ -186,6 +186,7 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
         child: CalendarWidget(
           selectedDate: (date) {
             _currentDate = date;
+            setState(() {});
           },
         ),
       ),
@@ -197,7 +198,9 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
       child: ListView.builder(
         itemCount: 10,
         shrinkWrap: true,
-        padding: const EdgeInsets.all(12.0),
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(
+            top: 12.0, left: 20.0, right: 20.0, bottom: 80),
         itemBuilder: (context, index) {
           return VisitCard();
         },
@@ -229,27 +232,30 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: _fab(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.green,
-          image: DecorationImage(
-              image: Assets.images.bg2.image().image,
-              alignment: Alignment.topCenter,
-              fit: BoxFit.fitWidth),
-        ),
-        child: SafeArea(
-          child: CustomScrollView(
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.green,
+        image: DecorationImage(
+            image: Assets.images.bg2.image().image,
+            alignment: Alignment.topCenter,
+            fit: BoxFit.fitWidth),
+      ),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          floatingActionButton: _fab(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          body: CustomScrollView(
             slivers: [
               const GreenAppBarWidget(),
-              const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 20.0,
+              SliverToBoxAdapter(
+                child: Container(
+                  height: 20,
                 ),
               ),
               SliverFillRemaining(
+                hasScrollBody: false,
                 child: _body(),
               ),
             ],
