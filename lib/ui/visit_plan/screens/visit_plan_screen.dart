@@ -1,12 +1,15 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_playground/core/data/model/menu.dart';
 import 'package:flutter_playground/core/widgets/app_colors.dart';
 import 'package:flutter_playground/core/widgets/app_theme.dart';
 import 'package:flutter_playground/gen/assets.gen.dart';
+import 'package:flutter_playground/ui/home/widget/menu_item.dart';
 import 'package:flutter_playground/ui/visit_plan/widget/calendar_view.dart';
 import 'package:flutter_playground/ui/visit_plan/widget/green_appbar.dart';
 import 'package:flutter_playground/ui/visit_plan/widget/visit_card.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class VisitPlanScreen extends StatefulWidget {
@@ -57,6 +60,49 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
     });
   }
 
+  Widget _bottomSheet() {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Create Visit Data',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Assets.images.icClose.image())
+            ],
+          ),
+          const SizedBox(
+            height: 20.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              MenuWidget(
+                  menuItem: HomePageMenu(
+                      icon: Assets.images.illFromVisitPlan.image(),
+                      label: 'From Visit Plan',
+                      page: 'VisitPlan')),
+              MenuWidget(
+                  menuItem: HomePageMenu(
+                      icon: Assets.images.illCreateVisitData.image(),
+                      label: 'Create New',
+                      page: 'VisitData')),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _fab() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -68,7 +114,21 @@ class _VisitPlanScreenState extends State<VisitPlanScreen>
             borderRadius: BorderRadius.circular(12), // <-- Radius
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            isScrollControlled: true,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
+            ),
+            context: context,
+            builder: (context) {
+              return _bottomSheet();
+            },
+          );
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [

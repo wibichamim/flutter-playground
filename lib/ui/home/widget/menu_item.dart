@@ -12,39 +12,6 @@ class MenuWidget extends StatelessWidget {
     required this.menuItem,
   });
 
-  // Widget _bottomSheet() {
-  //   return SizedBox(
-  //     height: 100,
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       children: [
-  //         MenuWidget(
-  //           menuItem: menuItem,
-  //         ),
-  //         MenuWidget(
-  //           menuItem: menuItem,
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  /* modal bottom sheet
-   showModalBottomSheet(
-          isScrollControlled: true,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            ),
-          ),
-          context: context,
-          builder: (context) {
-            return _bottomSheet();
-          },
-        ),
-  */
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
